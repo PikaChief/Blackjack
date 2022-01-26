@@ -222,7 +222,7 @@ int main()
     cout << "The shuffled deck should have first card missing: \n";
     printDeck(deck);
 
-    jellybeanasdfasdflasdf
+    quantum loops
 
     /*vector<Card> newDeck;
     newDeck = shuffle(deck);
