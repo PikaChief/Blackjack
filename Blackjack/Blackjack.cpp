@@ -210,9 +210,7 @@ int main()
     cout << "Deck in order: \n";
     printDeck(deck);
 
-   
     cout << "The shuffled deck is: \n";
-
     shuffle(deck);
     printDeck(deck);
 
@@ -224,9 +222,7 @@ int main()
     cout << "The shuffled deck should have first card missing: \n";
     printDeck(deck);
 
-
-    
-    penis;
+    jellybeanasdfasdflasdf
 
     /*vector<Card> newDeck;
     newDeck = shuffle(deck);
