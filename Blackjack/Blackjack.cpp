@@ -4,6 +4,7 @@
 #include <vector>
 using namespace std;
 
+//Card class constructor
 class Card
 {
 public:
@@ -34,6 +35,8 @@ string Card::getName()
     return name;
 }
 
+
+//prints a vector of cards
 void printDeck(vector<Card> deck)
 {
     for (int i = 0; i < deck.size(); i++)
@@ -42,36 +45,34 @@ void printDeck(vector<Card> deck)
     }
 }
 
-
-//shuffles deck
+//shuffles deck (using swap)
 void shuffle(vector<Card>& deck)
 {
     srand(time(NULL));
 
     for(int i = 0; i < deck.size(); i++)
     {
-        int random = rand() % (deck.size() - i) + i; //random position from deck
-        swap(deck[i], deck[random]);
+        int random = rand() % (deck.size() - i) + i; //random position after i
+        swap(deck[i], deck[random]); //swaps card at i with card at element random
     }
 }
 
-//shuffles deck
+//shuffles deck (my version/unused) note: to call, you must set to temp vector 
 vector<Card> MyShuffle(vector<Card> deck)
 {
-    srand(time(NULL));
-
+    srand(time(NULL)); //random seed
     vector<Card> temp;
 
     while (deck.size() > 0)
     {
         int random = rand() % deck.size(); //random position from deck
-        cout << random;
         temp.push_back(deck[random]); //inserts random card from deck into temp
         deck.erase(deck.begin() + random); //removes the same card from deck
     }
     return temp;
 }
 
+//draws a card from a vector
 Card draw(vector<Card>& deck)
 {
     int first_card_position = 0;
@@ -83,152 +84,48 @@ Card draw(vector<Card>& deck)
 
 int main()
 {
-    Card AceOfSpades;
-    AceOfSpades.value = 1;
-    AceOfSpades.suit = "Spades";
-    AceOfSpades.name = "Ace of Spades";
-    Card TwoOfSpades;
-    TwoOfSpades.value = 2;
-    TwoOfSpades.suit = "Spades";
-    TwoOfSpades.name = "Two of Spades";
-    Card ThreeOfSpades;
-    ThreeOfSpades.value = 3;
-    ThreeOfSpades.suit = "Spades";
-    ThreeOfSpades.name = "Three of Spades";
-    Card FourOfSpades;
-    FourOfSpades.value = 4;
-    FourOfSpades.suit = "Spades";
-    FourOfSpades.name = "Four of Spades";
-    Card FiveOfSpades;
-    FiveOfSpades.value = 5;
-    FiveOfSpades.suit = "Spades";
-    FiveOfSpades.name = "Five of Spades";
-    Card SixOfSpades;
-    SixOfSpades.value = 6;
-    SixOfSpades.suit = "Spades";
-    SixOfSpades.name = "Six of Spades";
-    Card SevenOfSpades;
-    SevenOfSpades.value = 7;
-    SevenOfSpades.suit = "Spades";
-    SevenOfSpades.name = "Seven of Spades";
-    Card EightOfSpades;
-    EightOfSpades.value = 8;
-    EightOfSpades.suit = "Spades";
-    EightOfSpades.name = "Eight of Spades";
-    Card NineOfSpades;
-    NineOfSpades.value = 9;
-    NineOfSpades.suit = "Spades";
-    NineOfSpades.name = "Nine of Spades";
-    Card TenOfSpades;
-    TenOfSpades.value = 10;
-    TenOfSpades.suit = "Spades";
-    TenOfSpades.name = "Ten of Spades";
-    Card JackOfSpades;
-    JackOfSpades.value = 10;
-    JackOfSpades.suit = "Spades";
-    JackOfSpades.name = "Jack of Spades";
-    Card QueenOfSpades;
-    QueenOfSpades.value = 10;
-    QueenOfSpades.suit = "Spades";
-    QueenOfSpades.name = "Queen of Spades";
-    Card KingOfSpades;
-    KingOfSpades.value = 10;
-    KingOfSpades.suit = "Spades";
-    KingOfSpades.name = "Kings of Spades";
-    Card AceOfClubs;
-    AceOfClubs.value = 1;
-    AceOfClubs.suit = "Clubs";
-    AceOfClubs.name = "Ace of Clubs";
-    Card TwoOfClubs;
-    TwoOfClubs.value = 2;
-    TwoOfClubs.suit = "Clubs";
-    TwoOfClubs.name = "Two of Clubs";
-    Card ThreeOfClubs;
-    ThreeOfClubs.value = 3;
-    ThreeOfClubs.suit = "Clubs";
-    ThreeOfClubs.name = "Three of Clubs";
-    Card FourOfClubs;
-    FourOfClubs.value = 4;
-    FourOfClubs.suit = "Clubs";
-    FourOfClubs.name = "Four of Clubs";
-    Card FiveOfClubs;
-    FiveOfClubs.value = 5;
-    FiveOfClubs.suit = "Clubs";
-    FiveOfClubs.name = "Five of Clubs";
-    Card SixOfClubs;
-    SixOfClubs.value = 6;
-    SixOfClubs.suit = "Clubs";
-    SixOfClubs.name = "Six of Clubs";
-    Card SevenOfClubs;
-    SevenOfClubs.value = 7;
-    SevenOfClubs.suit = "Clubs";
-    SevenOfClubs.name = "Seven of Clubs";
-    Card EightOfClubs;
-    EightOfClubs.value = 8;
-    EightOfClubs.suit = "Clubs";
-    EightOfClubs.name = "Eight of Clubs";
-    Card NineOfClubs;
-    NineOfClubs.value =9;
-    NineOfClubs.suit = "Clubs";
-    NineOfClubs.name = "Nine of Clubs";
-    Card TenOfClubs;
-    TenOfClubs.value = 10;
-    TenOfClubs.suit = "Clubs";
-    TenOfClubs.name = "Ten of Clubs";
-    Card JackOfClubs;
-    JackOfClubs.value = 10;
-    JackOfClubs.suit = "Clubs";
-    JackOfClubs.name = "Jack of Clubs";
-    Card QueenOfClubs;
-    QueenOfClubs.value = 10;
-    QueenOfClubs.suit = "Clubs";
-    QueenOfClubs.name = "Queen of Clubs";
-    Card KingOfClubs;
-    KingOfClubs.value = 10;
-    KingOfClubs.suit = "Clubs";
-    KingOfClubs.name = "King of Clubs";
-
-    /*
-    for (int card = 1, card < 52, card++)
-    {
-        for (int suit = 1, suit < 13, suit++)
-        {
-            "Two " +
-            vector with names of suits/numbers, then set position equal to the name
-        }
-    }
-    */
+    string values[13] = { "Ace","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Jack","Queen","King"};
+    string suits[4] = { "Spades","Clubs","Diamonds","Hearts" };
+    int worth[13] = { 1,2,3,4,5,6,7,8,9,10,10,10,10 };
 
     vector<Card> deck;
-
-    deck.push_back(AceOfSpades);
-    deck.push_back(TwoOfSpades);
-    deck.push_back(ThreeOfSpades);
-    deck.push_back(FourOfSpades);
-    deck.push_back(FiveOfSpades);
-
+    
+    for (int i = 0; i < 4; i++) //generates a deck of cards
+    {
+        for (int j = 0; j < 13; j++)
+        {
+            Card temp;
+            temp.value = worth[j];
+            temp.suit = suits[i];
+            string card_name = values[j] + " of " + suits[i];
+            temp.name = card_name;
+            deck.push_back(temp);
+        }
+    }
+    
     cout << "Deck in order: \n";
     printDeck(deck);
 
-    cout << "The shuffled deck is: \n";
+    cout << "\nThe shuffled deck is: \n";
     shuffle(deck);
     printDeck(deck);
 
-    cout << "I drew a card: \n";
+    cout << "\nI drew two cards: \n";
 
-    Card card = draw(deck);
-    cout << card.getName() + "\n";
 
-    cout << "The shuffled deck should have first card missing: \n";
+    vector<Card> PlayerHand;
+
+    Card floating_card = draw(deck);
+    PlayerHand.push_back(floating_card);
+    floating_card = draw(deck);
+    PlayerHand.push_back(floating_card);
+
+    printDeck(PlayerHand);
+
+
+    cout << "\nThe shuffled deck should have the first two cards missing: \n";
     printDeck(deck);
 
-
-
-    /*vector<Card> newDeck;
-    newDeck = shuffle(deck);
-
-    printDeck(newDeck);*/
-    
     
 }
 
