@@ -2,35 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "Card.h"
+
 using namespace std;
 
-//Card class constructor
-class Card
-{
-public:
-    int value; //numerical value of card
-    string suit; //spades, diamond, clubs, hearts
-    string name; //name of card
-
-    int getValue();
-    string getSuit();
-    string getName();
-};
-//returns card value
-int Card::getValue()
-{
-    return value;
-}
-//returns card suit
-string Card::getSuit()
-{
-    return suit;
-}
-//returns name of card
-string Card::getName()
-{
-    return name;
-}
 
 //Player Class
 class Player
