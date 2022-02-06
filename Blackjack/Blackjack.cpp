@@ -40,12 +40,18 @@ public:
     int bankroll;
     int bet;
     vector<Card> hand;
+    vector<Card> hand2; //for splits
+    vector<Card> softhand; //for soft hands
+    vector<Card> softhand2; //for soft split hands
 
     string getName();
     int getBankroll();
     int getBet();
     vector<Card> getHand();
-
+    vector<Card> getHand2();
+    vector<Card> getSoftHand();
+    vector<Card> getSoftHand2();
+    void clearHands();
 };
 
 string Player::getName()
@@ -64,8 +70,25 @@ vector<Card> Player::getHand()
 {
     return hand;
 }
-
-
+vector<Card> Player::getHand2()
+{
+    return hand2;
+}
+vector<Card> Player::getSoftHand()
+{
+    return softhand;
+}
+vector<Card> Player::getSoftHand2()
+{
+    return softhand2;
+}
+void Player::clearHands()
+{
+    hand.clear();
+    hand2.clear();
+    softhand.clear();
+    softhand2.clear();
+}
 
 vector<Card> generateDeck()
 {
@@ -108,6 +131,27 @@ void shuffle(vector<Card>& deck)
     }
 }
 
+//checks Player1's hand for Ace to make soft hand
+void updateSoftHand(vector<Card> original, vector<Card>& softhand)
+{
+    //copies original's hand into soft hand
+    for (int i = 0; i < original.size(); i++)
+    {
+        softhand.push_back(original[i]);
+    }
+
+    //sets first Ace in the soft hand to 11
+    for (int i = 0; i < softhand.size(); i++)
+    {
+
+        if (softhand[i].getValue() == 1)
+        {
+            softhand[i].value = 11;
+            i = softhand.size(); //breakout of loop because only first Ace value in a hand gets set to 11
+        }
+    }
+}
+
 //alternative shuffle method. Note: to call, you must set to a temp vector 
 vector<Card> MyShuffle(vector<Card> deck)
 {
@@ -132,6 +176,7 @@ Card draw(vector<Card>& deck)
     return card;
 }
 
+//returns sum of a vector of cards
 int sum(vector<Card> hand)
 {
     int sum = 0;
@@ -142,26 +187,47 @@ int sum(vector<Card> hand)
     return sum;
 }
 
+//returns true if a vector of cards contains an Ace
+bool hasAce(vector<Card> hand)
+{
+    bool ace = false;
+    for (int i = 0; i < hand.size(); i++)
+    {
+        if (hand[i].getValue() == 1)
+        {
+            ace = true;
+        }
+    }
+    return ace;
+}
+
+
 int main()
 {
+    
     srand(time(NULL));
     vector<Card> deck;
-    
+
     Player dealer;
     dealer.name = "Dealer";
 
     Player player1;
-    bool play = true;
+    player1.name = "Player 1";
 
-     
+    bool game = true;;
+
+    /*
     cout << "Hello, welcome to Blackjack! Please type your name: ";
     string input_name;
     cin >> input_name;
     player1.name = input_name;
+    */
 
      
-    while (play == true)
+    while (game == true)
     {
+        string turn = "Setup"; //Setup, Player1, Dealer, none (results)
+
         deck = generateDeck();
         shuffle(deck);
 
@@ -177,90 +243,239 @@ int main()
         //play begins
         dealer.hand.push_back(draw(deck));
         dealer.hand.push_back(draw(deck));
+        //dealer.hand.push_back(deck[6]);
+        //dealer.hand.push_back(deck[14]);
 
         cout << "\nThe dealer's face-up card is: \n";
+        //cout << dealer.hand[0].getName();
         cout << dealer.hand[1].getName();
 
         player1.hand.push_back(draw(deck));
         player1.hand.push_back(draw(deck));
+        //player1.hand.push_back(deck[0]);
+        //player1.hand.push_back(deck[10]);
 
         cout << "\n\nThe player's hand is: \n";
         printDeck(player1.getHand());
-        cout << "Your total is: " + to_string(sum(player1.getHand()));
 
-        //player action
-        cout << "\nWould you like to (H)it or (S)tand? ";
-        string action;
-        cin >> action;
-        while (action == "H")
+
+        //checks Dealer's hand for Ace to make soft hand
+        if (hasAce(dealer.getHand()))
+        { 
+            updateSoftHand(dealer.hand, dealer.softhand);
+        }
+        
+        //checks Player1's hand for Ace to make soft hand
+        if (hasAce(player1.getHand()))
         {
-            player1.hand.push_back(draw(deck));
-            cout << "\nYour hand is: \n";
-            printDeck(player1.getHand());
-            cout << "Your total is: " + to_string(sum(player1.getHand()));
+            updateSoftHand(player1.hand, player1.softhand);
+        }
 
-            if (sum(player1.getHand()) > 21)
+        //PLAYER BLACKJACK
+        if ((sum(player1.getSoftHand()) == 21) && !(sum(dealer.getSoftHand()) == 21))
+        {
+            cout << "Winner Winner Chicken Dinner!";
+            turn = "none"; //game is over, acutally might not be if you want player blackjack + dealer blakcjack = push
+        }
+
+        //DEALER BLACKJACK
+        else if ((dealer.hand[0].value == 1) && (dealer.hand[1].value == 10)) //Dealer Blackjack = first (face-down) card is Ace and second (face-up card) is 10
+        {
+            if (sum(player1.getSoftHand()) == 21)
             {
-                cout << "\nYou busted!\n";
-                action = "S";
+                cout << "Player and Dealer both has Blackjack. It's a Push.";
             }
-            else
+            else cout << "Dealer has Blackjack!";
+            turn = "none"; //game is over
+        }
+
+        //INSURANCE
+        else if (dealer.hand[1].value == 1) //only if Dealer 2nd (face-up) card is Ace
+        {
+            cout << "Would you like insurance? Y/N: ";
+            string response;
+            cin >> response;
+            if (response == "Y")
             {
-                cout << "\nWould you like to (H)it or (S)tand? ";
-                cin >> action;
+                cout << "You took insurance."; //unfinished
+                //player1.bankroll -= bet/2;
+            }
+            if (response == "N")
+            {
+                cout << "You declined insurance.";
+            }
+
+            if ((dealer.hand[1].value == 1) && (dealer.hand[0].value == 10))
+            {
+                cout << "The Dealer had Blackjack";
+                turn = "none"; //game is over
             }
         }
-        //only if player did not bust
-        if (sum(player1.getHand()) < 22) 
+
+        while(turn == "Setup")
         {
+            //normal text 
+            cout << "\nYour total is: " + to_string(sum(player1.getHand()));
+            //soft hand text
+            if (hasAce(player1.getHand()))
+            {
+                //displays soft hand total, if applicable
+                cout << " or " + to_string(sum(player1.getSoftHand()));
+            }
+            turn = "Player 1";
+        }       
+        
+        //PLAYER 1'S TURN
+        while (turn == "Player 1")
+        {
+            //Player action/hit loop
+            cout << "\nWould you like to (H)it or (S)tand? ";
+            string action;
+            cin >> action;
+            while (action == "H")
+            {
+                //draws one card
+                Card temp;
+                temp = draw(deck);
+                player1.hand.push_back(temp);
+
+                //prints hand
+                cout << "\nYour hand is: \n";
+                printDeck(player1.getHand());
+
+                cout << "Your total is: " + to_string(sum(player1.getHand()));
+                //updates soft_hand to include the new card, if at least one Ace in hand
+                if ((hasAce(player1.getHand()))) 
+                {
+                    updateSoftHand(player1.hand, player1.softhand);
+                    if (sum(player1.getSoftHand()) < 21)//won't print out if soft total is over 21
+                    {
+                       cout << " or " + to_string(sum(player1.getSoftHand()));
+                    }
+                }
+
+                if (sum(player1.getHand()) > 21)
+                {
+                    cout << "\nYou busted!\n";
+                    action = "S";
+                    turn = "Dealer"; //or next player's turn, array/vector?
+                }
+                else
+                {
+                    cout << "\nWould you like to (H)it or (S)tand? ";
+                    cin >> action;
+                }
+            }
+
+            //clears and fills player1's hand with soft hand values if it is higher
+            if ((sum(player1.getHand())) < sum(player1.getSoftHand()))
+            {
+                player1.hand.clear();
+                for (int i = 0; i < player1.softhand.size(); i++)
+                {
+                    player1.hand.push_back(player1.softhand[i]);
+                }
+            }
+            turn = "Dealer"; //or next player
+        }
+
+        //DEALER'S TURN
+        while (turn == "Dealer") //or next player
+        {
+            //dealer normal text
             cout << "\nThe dealer's hand was: \n";
             printDeck(dealer.getHand());
 
-            while (sum(dealer.getHand()) < 17)
+            cout << "The Dealer's total was: " + to_string(sum(dealer.getHand()));
+            //dealer soft hand text
+            if (hasAce(dealer.getHand())) //always displays if Dealer first two cards had Ace because total will never be over 21
             {
-                dealer.hand.push_back(draw(deck));
-                cout << "\nThe dealer hit: \n";
+                //displays soft hand total, if applicable
+                cout << " or " + to_string(sum(dealer.getSoftHand())) + "\n";
+            }
+
+            //Dealer action/hit loop
+            while (sum(dealer.getHand()) < 17) //Dealer stands on soft 17s
+            {
+                //draws one card
+                Card temp;
+                temp = draw(deck);
+                dealer.hand.push_back(temp);
+
+                cout << "\n\nThe dealer hit: \n";
                 printDeck(dealer.getHand());
-                cout << "The dealer's total is: " + to_string(sum(dealer.getHand())) + "\n";
+                cout << "The dealer's total is: " + to_string(sum(dealer.getHand()));
+
+                //dealer soft hand text
+                if (hasAce(dealer.getHand()))
+                {
+                    //also puts drawn card in soft hand, if applicable
+                    if (hasAce(dealer.getHand()))
+                    {
+                        updateSoftHand(dealer.hand, dealer.softhand);
+                    }
+                    if (sum(dealer.getSoftHand()) < 22) //displays soft hand total, if soft hand is under 22
+                    {
+                        cout << " or " + to_string(sum(dealer.getSoftHand()));
+                    }
+
+                    //clears and fills dealer's hand with soft hand values if it is higher
+                    if ((sum(dealer.getHand())) < sum(dealer.getSoftHand()))
+                    {
+                        dealer.hand.clear();
+                        for (int i = 0; i < dealer.softhand.size(); i++)
+                        {
+                            dealer.hand.push_back(dealer.softhand[i]);
+                        }
+                    }
+                }
             }
-            if (sum(dealer.getHand()) > 21)
+
+            turn = "none"; //Dealer is last player to go
+        }
+
+        //END OF GAME CALCULATIONS
+        if ((sum(dealer.getHand())) > 21 && (sum(player1.getHand()) < 22))
+        {
+            cout << "\nThe dealer busted. You win!\n";
+            //player1.bankroll += bet;
+            //player1.bankroll += bet;
+        }
+        else
+        {
+            if ((sum(dealer.getHand()) > sum(player1.getHand())) && (sum(player1.getHand()) < 22))
             {
-                cout << "The dealer busted. You win!\n";
+                cout << "\nThe Dealer won.";
+            }
+            else if ((sum(dealer.getHand()) < sum(player1.getHand())) && (sum(player1.getHand()) < 22))
+            {
+                cout << "\nCongratulations, you win!";
                 //player1.bankroll += bet;
                 //player1.bankroll += bet;
             }
-            else
+            else if (sum(dealer.getHand()) == sum(player1.getHand()))
             {
-                if (sum(dealer.getHand()) > sum(player1.getHand()))
-                {
-                    cout << "The Dealer won.";
-                }
-                if (sum(dealer.getHand()) < sum(player1.getHand()))
-                {
-                    cout << "Congratulations, you win!";
-                    //player1.bankroll += bet;
-                    //player1.bankroll += bet;
-                }
-                if (sum(dealer.getHand()) == sum(player1.getHand()))
-                {
-                    cout << "It's a Push. Bets are returned.";
-                    //player1.bankroll += bet;
-                }
+                cout << "\nIt's a Push. Bets are returned.";
+                //player1.bankroll += bet;
             }
         }
 
-        //resetting deck and hands
-        dealer.hand.clear();
-        player1.hand.clear();
+        //resetting deck and hands MAKER A FUNCTION FOR THIS
+        dealer.clearHands(); 
+        player1.clearHands();
         deck.clear();
 
         //continuation
         cout << "\nWould you like to play again? Y/N: ";
         string answer;
         cin >> answer;
+        if (answer == "Y")
+        {
+            turn = "Setup"; //resets turn back to Setup
+        }
         if (answer == "N")
         {
-            play = false;
+            game = false;
         }
         cout << "============================================================";
     }

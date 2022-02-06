@@ -1,3 +1,4 @@
 ﻿  Blackjack.cpp
-C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(147,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(150,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(208,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Blackjack.vcxproj -> C:\Users\lchan\Documents\C++ Projects\Blackjack\x64\Debug\Blackjack.exe
