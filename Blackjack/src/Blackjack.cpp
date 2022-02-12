@@ -206,7 +206,7 @@ int main()
 
         deck = generateDeck();
         shuffle(deck);
-
+        adsfasdf
         //player bet
         /*
         cout << "Input your bet: ";

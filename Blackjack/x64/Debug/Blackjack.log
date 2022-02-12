@@ -1,6 +1,8 @@
 ﻿  Blackjack.cpp
-C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(200,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(208,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(423,25): warning C4804: '<=': unsafe use of type 'bool' in operation
-C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\Blackjack.cpp(455,33): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\src\Blackjack.cpp(176,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\src\Blackjack.cpp(184,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\src\Blackjack.cpp(399,25): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\lchan\Documents\C++ Projects\Blackjack\Blackjack\src\Blackjack.cpp(431,33): warning C4804: '<=': unsafe use of type 'bool' in operation
+  Card.cpp
+  Generating Code...
   Blackjack.vcxproj -> C:\Users\lchan\Documents\C++ Projects\Blackjack\x64\Debug\Blackjack.exe
