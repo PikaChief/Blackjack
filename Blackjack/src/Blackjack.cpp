@@ -221,7 +221,7 @@ int main(int argc, char* argv[])
 
         deck = generateDeck();
         shuffle(deck);
-        adsfasdf
+
         //player bet
         /*
         cout << "Input your bet: ";
