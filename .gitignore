@@ -405,6 +405,7 @@ FodyWeavers.xsd
 ## Ignore C++ temporary files, build results, and other files
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
+
 # Prerequisites
 *.d
 
@@ -437,3 +438,8 @@ FodyWeavers.xsd
 *.exe
 *.out
 *.app
+
+!Dependencies/SDL/VisualC/[Ww][Ii][Nn]32/[Dd]ebug/*
+!Dependencies/SDL/VisualC/[Ww][Ii][Nn]32/[Rr]elease/*
+!Dependencies/SDL/VisualC/x64/[Dd]ebug/*
+!Dependencies/SDL/VisualC/x64/[Rr]elease/*
