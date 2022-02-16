@@ -104,6 +104,9 @@
       <Command>XCOPY /y /d /f "$(SolutionDir)Dependencies\SDL\VisualC\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
       <Message>Copying DLLs to Output Directory</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)tools\install_sdl_visual_c.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -127,6 +130,9 @@
       <Command>XCOPY /y /d /f "$(SolutionDir)Dependencies\SDL\VisualC\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
       <Message>Copying DLLs to Output Directory</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)tools\install_sdl_visual_c.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -146,6 +152,9 @@
       <Command>XCOPY /y /d /f "$(SolutionDir)Dependencies\SDL\VisualC\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
       <Message>Copying DLLs to Output Directory</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)tools\install_sdl_visual_c.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -169,6 +178,9 @@
       <Command>XCOPY /y /d /f "$(SolutionDir)Dependencies\SDL\VisualC\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
       <Message>Copying DLLs to Output Directory</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)tools\install_sdl_visual_c.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Blackjack.cpp" />
