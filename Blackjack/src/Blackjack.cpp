@@ -190,7 +190,7 @@ int main()
     Player player1;
     player1.name = "Player 1";
 
-    bool game = true;;
+    bool game = true;
 
     /*
     cout << "Hello, welcome to Blackjack! Please type your name: ";
